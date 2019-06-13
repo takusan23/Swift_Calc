@@ -18,6 +18,8 @@ class ViewController: UIViewController {
     let goukei = 1000
     let delete = 10
     let ac = 2000
+    //履歴機能
+    var historyList : [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -82,6 +84,13 @@ class ViewController: UIViewController {
                     LabelAnser.text = LabelIntermediate.text //上の段の値を下の段に入れる
                     LabelIntermediate.text = "" // 上の段のLabelを空にする
                     LabelHugou.text = "" // 符号のLabelを空にする。これで次の計算は最初の計算の処理のところになる
+                    
+                    let userDefaults = UserDefaults.standard //保存するやつ
+                    if userDefaults.object(forKey: "history_list") != nil {
+                        historyList = userDefaults.array(forKey: "history_list") as! [String]
+                    }
+                    historyList.append(LabelAnser.text!)
+                    userDefaults.set(historyList,forKey : "history_list")
                 }
             }
         }
@@ -158,6 +167,17 @@ class ViewController: UIViewController {
         // 通知を表示する
         present(alert,animated: true,completion: nil)
     }
+    
+    
+//    @IBAction func HistoryTouchDown(_ sender: UIButton) {
+//        let historyView = HistoryViewController()
+//       let nav = UINavigationController(rootViewController: historyView)
+//       nav.modalPresentationStyle = .formSheet
+//        self.present(nav,animated: true,completion:  nil)
+//        performSegue(withIdentifier: "history", sender: nil)
+//
+//    }
+    
 }
 
 
